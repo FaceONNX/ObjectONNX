@@ -29,11 +29,24 @@ namespace ObjectONNX
         /// </summary>
         /// <param name="confidenceThreshold">Confidence threshold</param>
         /// <param name="nmsThreshold">NonMaxSuppression threshold</param>
-        public ObjectDetector(float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f)
+        /// <param name="objectDetectionModel">Object detection model</param>
+        public ObjectDetector(float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f, ObjectDetectionModel objectDetectionModel = ObjectDetectionModel.MaskRCNNInceptionV2)
         {
-            _session = new InferenceSession(Resources.ssd_inception_v2_coco);
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
+            byte[] model;
+
+            switch (objectDetectionModel)
+            {
+                case ObjectDetectionModel.MaskRCNNInceptionV2:
+                    model = Resources.mask_rcnn_inception_v2;
+                    break;
+                default:
+                    model = Resources.ssd_inception_v2_coco;
+                    break;
+            }
+
+            _session = new InferenceSession(model);
         }
 
         /// <summary>
@@ -42,11 +55,24 @@ namespace ObjectONNX
         /// <param name="options">Session options</param>
         /// <param name="confidenceThreshold">Confidence threshold</param>
         /// <param name="nmsThreshold">NonMaxSuppression threshold</param>
-        public ObjectDetector(SessionOptions options, float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f)
+        /// <param name="objectDetectionModel">Object detection model</param>
+        public ObjectDetector(SessionOptions options, float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f, ObjectDetectionModel objectDetectionModel = ObjectDetectionModel.MaskRCNNInceptionV2)
         {
-            _session = new InferenceSession(Resources.ssd_inception_v2_coco, options);
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
+            byte[] model;
+
+            switch (objectDetectionModel)
+            {
+                case ObjectDetectionModel.MaskRCNNInceptionV2:
+                    model = Resources.mask_rcnn_inception_v2;
+                    break;
+                default:
+                    model = Resources.ssd_inception_v2_coco;
+                    break;
+            }
+
+            _session = new InferenceSession(model, options);
         }
 
         #endregion
@@ -192,6 +218,7 @@ namespace ObjectONNX
             var detection_classes = results[1].AsTensor<float>();
             var detection_scores = results[2].AsTensor<float>();
             var num_detections = results[3].AsTensor<float>()[0];
+            var detection_masks = results.Length == 5 ? results[4].AsTensor<float>() : null;
 
             // post-proccessing
             var boxes_picked = new List<ObjectDetectionResult>();

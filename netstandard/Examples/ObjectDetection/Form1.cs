@@ -12,7 +12,7 @@ namespace ObjectDetection
             DragDrop += Form1_DragDrop;
             DragEnter += Form1_DragEnter;
             AllowDrop = true;
-            _objectDetector = new ObjectDetector(0.25f, 0.5f);
+            _objectDetector = new ObjectDetector(0.25f, 0.5f, ObjectDetectionModel.MaskRCNNInceptionV2);
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)

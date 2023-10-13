@@ -29,6 +29,7 @@
 
 
 	<ItemGroup>
+	  <None Remove="models\mask_rcnn_inception_v2.onnx" />
 	  <None Remove="models\ssd_inception_v2_coco.onnx" />
 	  <None Remove="models\ssd_inception_v2_coco_.onnx" />
 	</ItemGroup>
@@ -39,6 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="models\mask_rcnn_inception_v2.onnx" />
 	  <Resource Include="models\ssd_inception_v2_coco.onnx" />
 	</ItemGroup>
 
