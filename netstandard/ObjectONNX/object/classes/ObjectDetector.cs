@@ -34,19 +34,7 @@ namespace ObjectONNX
         {
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
-            byte[] model;
-
-            switch (objectDetectionModel)
-            {
-                case ObjectDetectionModel.MaskRCNNInceptionV2:
-                    model = Resources.mask_rcnn_inception_v2;
-                    break;
-                default:
-                    model = Resources.ssd_inception_v2_coco;
-                    break;
-            }
-
-            _session = new InferenceSession(model);
+            _session = new InferenceSession(GetModel(objectDetectionModel));
         }
 
         /// <summary>
@@ -60,19 +48,7 @@ namespace ObjectONNX
         {
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
-            byte[] model;
-
-            switch (objectDetectionModel)
-            {
-                case ObjectDetectionModel.MaskRCNNInceptionV2:
-                    model = Resources.mask_rcnn_inception_v2;
-                    break;
-                default:
-                    model = Resources.ssd_inception_v2_coco;
-                    break;
-            }
-
-            _session = new InferenceSession(model, options);
+            _session = new InferenceSession(GetModel(objectDetectionModel), options);
         }
 
         #endregion
@@ -101,7 +77,7 @@ namespace ObjectONNX
             "boat",
             "traffic light",
             "fire hydrant",
-            "--unknown",
+            "unknown",
             "stop sign",
             "parking meter",
             "bench",
@@ -115,11 +91,11 @@ namespace ObjectONNX
             "bear",
             "zebra",
             "giraffe",
-            "--unknown",
+            "unknown",
             "backpack",
             "umbrella",
-            "--unknown",
-            "--unknown",
+            "unknown",
+            "unknown",
             "handbag",
             "tie",
             "suitcase",
@@ -134,7 +110,7 @@ namespace ObjectONNX
             "surfboard",
             "tennis racket",
             "bottle",
-            "--unknown",
+            "unknown",
             "wine glass",
             "cup",
             "fork",
@@ -155,12 +131,12 @@ namespace ObjectONNX
             "couch",
             "potted plant",
             "bed",
-            "--unknown",
+            "unknown",
             "dining table",
-            "--unknown",
-            "--unknown",
+            "unknown",
+            "unknown",
             "toilet",
-            "--unknown",
+            "unknown",
             "tv",
             "laptop",
             "mouse",
@@ -172,7 +148,7 @@ namespace ObjectONNX
             "toaster",
             "sink",
             "refrigerator",
-            "--unknown",
+            "unknown",
             "book",
             "clock",
             "vase",
@@ -269,6 +245,32 @@ namespace ObjectONNX
             }
 
             return boxes_picked.ToArray();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Returns model from ObjectDetectionModel.
+        /// </summary>
+        /// <param name="objectDetectionModel">Object detection model</param>
+        /// <returns>Model</returns>
+        private static byte[] GetModel(ObjectDetectionModel objectDetectionModel)
+        {
+            byte[] model;
+
+            switch (objectDetectionModel)
+            {
+                case ObjectDetectionModel.MaskRCNNInceptionV2:
+                    model = Resources.mask_rcnn_inception_v2;
+                    break;
+                default:
+                    model = Resources.ssd_inception_v2_coco;
+                    break;
+            }
+
+            return model;
         }
 
         #endregion
