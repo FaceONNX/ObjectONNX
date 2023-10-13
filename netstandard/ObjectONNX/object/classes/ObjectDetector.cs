@@ -16,10 +16,12 @@ namespace ObjectONNX
     public class ObjectDetector : IObjectDetector
     {
         #region Private data
+
         /// <summary>
         /// Inference session.
         /// </summary>
         private readonly InferenceSession _session;
+
         #endregion
 
         #region Constructor
@@ -263,8 +265,9 @@ namespace ObjectONNX
             switch (objectDetectionModel)
             {
                 case ObjectDetectionModel.MaskRCNNInceptionV2:
-                    model = Resources.mask_rcnn_inception_v2;
+                    model = Resources.mask_rcnn_inception_v2_coco;
                     break;
+                case ObjectDetectionModel.SSDInceptionV2:
                 default:
                     model = Resources.ssd_inception_v2_coco;
                     break;

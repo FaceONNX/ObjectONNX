@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="mask_rcnn_inception_v2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\models\mask_rcnn_inception_v2.onnx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="mask_rcnn_inception_v2_coco" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\models\mask_rcnn_inception_v2_coco.onnx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ssd_inception_v2_coco" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\models\ssd_inception_v2_coco.onnx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

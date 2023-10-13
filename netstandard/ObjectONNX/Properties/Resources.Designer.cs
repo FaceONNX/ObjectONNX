@@ -63,9 +63,9 @@ namespace ObjectONNX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] mask_rcnn_inception_v2 {
+        internal static byte[] mask_rcnn_inception_v2_coco {
             get {
-                object obj = ResourceManager.GetObject("mask_rcnn_inception_v2", resourceCulture);
+                object obj = ResourceManager.GetObject("mask_rcnn_inception_v2_coco", resourceCulture);
                 return ((byte[])(obj));
             }
         }
