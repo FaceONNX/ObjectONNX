@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <AssemblyName>ObjectONNX</AssemblyName>
+	  <LangVersion>8.0</LangVersion>
+	  <Version>1.0.0.1</Version>
+	  <FileVersion>1.0.0.1</FileVersion>
+	  <Authors>Valery Asiryan</Authors>
+	  <Company>Valery Asiryan</Company>
+	  <Description>Object recognition and analytics library based on deep neural networks and ONNX runtime.</Description>
+	  <Copyright>Valery Asiryan, © 2023</Copyright>
+	  <RepositoryType>Open-source</RepositoryType>
+	  <PackageId>ObjectONNX</PackageId>
+	  <Product>ObjectONNX</Product>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageTags>object detection recognition classification onnx neural-networks</PackageTags>
+		
+
+	  <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.9.0" />
+		<PackageReference Include="UMapx" Version="5.2.6.6" />
+	</ItemGroup>
+
+</Project>
