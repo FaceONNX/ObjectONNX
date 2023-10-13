@@ -27,9 +27,34 @@
 		<Optimize>True</Optimize>
 	</PropertyGroup>
 
+
+	<ItemGroup>
+	  <None Remove="models\ssd_inception_v2_coco.onnx" />
+	  <None Remove="models\ssd_inception_v2_coco_.onnx" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.9.0" />
 		<PackageReference Include="UMapx" Version="5.2.6.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="models\ssd_inception_v2_coco.onnx" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>
