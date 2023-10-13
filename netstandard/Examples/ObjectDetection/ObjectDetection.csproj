@@ -12,4 +12,10 @@
     <ProjectReference Include="..\..\ObjectONNX\ObjectONNX.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="example.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,11 @@ namespace ObjectDetection
             DragDrop += Form1_DragDrop;
             DragEnter += Form1_DragEnter;
             AllowDrop = true;
-            _objectDetector = new ObjectDetector(0.25f, 0.5f, ObjectDetectionModel.MaskRCNNInceptionV2);
+
+            _objectDetector = new ObjectDetector(0.25f, 0.5f, ObjectDetectionModel.SSDInceptionV2);
+            var image = new Bitmap("example.png", false);
+            Process(image);
+            BackgroundImage = image;
         }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -24,19 +28,18 @@ namespace ObjectDetection
         {
             Cursor = Cursors.WaitCursor;
             var file = ((string[])e.Data.GetData(DataFormats.FileDrop, true))[0];
-            BackgroundImage?.Dispose();
-            BackgroundImage = new Bitmap(file, false);
-            Process();
+            var image = new Bitmap(file, false);
+            Process(image);
+            BackgroundImage = image;
             Cursor = Cursors.Default;
         }
 
-        private void Process()
+        private void Process(Bitmap image)
         {
             // params
             using var font = new Font("Arial", 22);
 
             // inference session
-            var image = (Bitmap)BackgroundImage;
             var results = _objectDetector.Forward(image);
 
             using (var g = Graphics.FromImage(image))
@@ -48,7 +51,7 @@ namespace ObjectDetection
                     var c = Color.Yellow;
                     using var brush = new SolidBrush(c);
                     using var pen = new Pen(c) { Width = 3 };
-                    g.DrawString(result.Label, font, brush, result.Rectangle.Left, result.Rectangle.Top);
+                    g.DrawString(ObjectDetector.Labels[result.Id], font, brush, result.Rectangle.Left, result.Rectangle.Top);
                     g.DrawRectangle(pen, result.Rectangle);
                 }
             }

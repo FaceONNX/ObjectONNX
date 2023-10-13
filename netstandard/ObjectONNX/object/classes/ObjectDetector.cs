@@ -88,7 +88,7 @@ namespace ObjectONNX
         /// <summary>
         /// Returns the labels.
         /// </summary>
-        public static string[] Labels = new string[]
+        public static readonly string[] Labels = new string[]
         {
             "person",
             "bicycle",
@@ -229,7 +229,7 @@ namespace ObjectONNX
 
                 if (score > ConfidenceThreshold)
                 {
-                    var label = Labels[(int)detection_classes[0, i] - 1];
+                    var labelId = (int)detection_classes[0, i] - 1;
 
                     var x = (int)(detection_boxes[0, i, 0] * height);
                     var y = (int)(detection_boxes[0, i, 1] * width);
@@ -242,7 +242,7 @@ namespace ObjectONNX
                     {
                         Score = score,
                         Rectangle = rectangle, 
-                        Label = label
+                        Id = labelId
                     });
                 }
             }

@@ -8,14 +8,14 @@ namespace ObjectONNX
     public class ObjectDetectionResult
     {
         /// <summary>
+        /// Gets or sets label id.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets score.
         /// </summary>
         public float Score { get; set; }
-
-        /// <summary>
-        /// Gets or sets label.
-        /// </summary>
-        public string Label { get; set; }
 
         /// <summary>
         /// Gets or sets rectangle.
