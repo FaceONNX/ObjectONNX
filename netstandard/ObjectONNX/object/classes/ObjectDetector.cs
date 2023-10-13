@@ -59,19 +59,116 @@ namespace ObjectONNX
         /// <inheritdoc/>
         public float NmsThreshold { get; set; }
 
+        /// <summary>
+        /// Returns the labels.
+        /// </summary>
+        public static string[] Labels = new string[]
+        {
+            "person",
+            "bicycle",
+            "car",
+            "motorcycle",
+            "airplane",
+            "bus",
+            "train",
+            "truck",
+            "boat",
+            "traffic light",
+            "fire hydrant",
+            "--unknown",
+            "stop sign",
+            "parking meter",
+            "bench",
+            "bird",
+            "cat",
+            "dog",
+            "horse",
+            "sheep",
+            "cow",
+            "elephant",
+            "bear",
+            "zebra",
+            "giraffe",
+            "--unknown",
+            "backpack",
+            "umbrella",
+            "--unknown",
+            "--unknown",
+            "handbag",
+            "tie",
+            "suitcase",
+            "frisbee",
+            "skis",
+            "snowboard",
+            "sports ball",
+            "kite",
+            "baseball bat",
+            "baseball glove",
+            "skateboard",
+            "surfboard",
+            "tennis racket",
+            "bottle",
+            "--unknown",
+            "wine glass",
+            "cup",
+            "fork",
+            "knife",
+            "spoon",
+            "bowl",
+            "banana",
+            "apple",
+            "sandwich",
+            "orange",
+            "broccoli",
+            "carrot",
+            "hot dog",
+            "pizza",
+            "donut",
+            "cake",
+            "chair",
+            "couch",
+            "potted plant",
+            "bed",
+            "--unknown",
+            "dining table",
+            "--unknown",
+            "--unknown",
+            "toilet",
+            "--unknown",
+            "tv",
+            "laptop",
+            "mouse",
+            "remote",
+            "keyboard",
+            "cell phone",
+            "microwave",
+            "oven",
+            "toaster",
+            "sink",
+            "refrigerator",
+            "--unknown",
+            "book",
+            "clock",
+            "vase",
+            "scissors",
+            "teddy bear",
+            "hair drier",
+            "toothbrush",
+        };
+
         #endregion
 
         #region Methods
 
         /// <inheritdoc/>
-        public Rectangle[] Forward(Bitmap image)
+        public ObjectDetectionResult[] Forward(Bitmap image)
         {
             var rgb = image.ToRGB(false);
             return Forward(rgb);
         }
 
         /// <inheritdoc/>
-        public Rectangle[] Forward(float[][,] image)
+        public ObjectDetectionResult[] Forward(float[][,] image)
         {
             if (image.Length != 3)
                 throw new ArgumentException("Image must be in BGR terms");
@@ -84,7 +181,7 @@ namespace ObjectONNX
 
             // preprocessing
             var tensors = image.ToByteTensor(true);
-            var inputData = tensors.Merge(true);
+            var inputData = tensors.Merge(false);
 
             // session run
             var t = new DenseTensor<byte>(inputData, dimentions);
@@ -97,7 +194,7 @@ namespace ObjectONNX
             var num_detections = results[3].AsTensor<float>()[0];
 
             // post-proccessing
-            var boxes_picked = new List<Rectangle>();
+            var boxes_picked = new List<ObjectDetectionResult>();
 
             for (int i = 0; i < num_detections; i++)
             {
@@ -105,7 +202,7 @@ namespace ObjectONNX
 
                 if (score > ConfidenceThreshold)
                 {
-                    //var label = labels[(int)detection_classes[0, i] - 1];
+                    var label = Labels[(int)detection_classes[0, i] - 1];
 
                     var x = (int)(detection_boxes[0, i, 0] * height);
                     var y = (int)(detection_boxes[0, i, 1] * width);
@@ -114,6 +211,12 @@ namespace ObjectONNX
 
                     // python rectangle
                     var rectangle = Rectangle.FromLTRB(y, x, h, w);
+                    boxes_picked.Add(new ObjectDetectionResult
+                    {
+                        Score = score,
+                        Rectangle = rectangle, 
+                        Label = label
+                    });
                 }
             }
 
@@ -127,7 +230,7 @@ namespace ObjectONNX
                 for (int j = i + 1; j < length; j++)
                 {
                     var second = boxes_picked[j];
-                    var iou = first.IoU(second);
+                    var iou = first.Rectangle.IoU(second.Rectangle);
 
                     if (iou > NmsThreshold)
                     {

@@ -25,14 +25,14 @@ namespace ObjectONNX
         /// </summary>
         /// <param name="image">Bitmap</param>
         /// <returns>Rectangles</returns>
-        Rectangle[] Forward(Bitmap image);
+        ObjectDetectionResult[] Forward(Bitmap image);
 
         /// <summary>
         /// Returns object detection results.
         /// </summary>
         /// <param name="image">Image in BGR terms</param>
         /// <returns>Rectangles</returns>
-        Rectangle[] Forward(float[][,] image);
+        ObjectDetectionResult[] Forward(float[][,] image);
 
         #endregion
     }
