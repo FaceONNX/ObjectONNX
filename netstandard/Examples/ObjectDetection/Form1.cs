@@ -13,7 +13,7 @@ namespace ObjectDetection
             DragEnter += Form1_DragEnter;
             AllowDrop = true;
 
-            _objectDetector = new ObjectDetector(0.25f, 0.5f, ObjectDetectionModel.SSDInceptionV2);
+            _objectDetector = new ObjectDetector(0.25f, 0.25f, ObjectDetectionModel.SSDInceptionV2);
             var image = new Bitmap("example.png", false);
             Process(image);
             BackgroundImage = image;
