@@ -15,10 +15,14 @@
 	  <Product>ObjectONNX</Product>
 	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageTags>object detection recognition classification onnx neural-networks</PackageTags>
-		
-
+	  <PackageTags>object detection recognition classification segmentation onnx neural-networks</PackageTags>
+	  <RepositoryUrl>https://github.com/FaceONNX/ObjectONNX</RepositoryUrl>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <PackageProjectUrl>https://github.com/FaceONNX/ObjectONNX</PackageProjectUrl>
+	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	  <PackageIcon>ObjectONNX.png</PackageIcon>
 	  <NeutralLanguage>en</NeutralLanguage>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
 
@@ -30,8 +34,6 @@
 
 	<ItemGroup>
 	  <None Remove="models\deeplabv3.onnx" />
-	  <None Remove="models\mask_rcnn_inception_v2.onnx" />
-	  <None Remove="models\ssd_inception_v2_coco.onnx" />
 	  <None Remove="models\yolov5s.onnx" />
 	</ItemGroup>
 
@@ -58,6 +60,17 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LICENSE.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="ObjectONNX.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
