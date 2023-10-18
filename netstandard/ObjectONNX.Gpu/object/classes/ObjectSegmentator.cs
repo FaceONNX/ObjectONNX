@@ -101,7 +101,7 @@ namespace ObjectONNX
 
             for (int i = 0; i < image.Length; i++)
             {
-                resized[i] = image[i].Resize(size.Height, size.Width);
+                resized[i] = image[i].ResizePreserved(size.Height, size.Width, 0.0f, InterpolationMode.Bicubic);
             }
 
             var dimentions = new int[] { 1, 3, size.Height, size.Width };
@@ -149,7 +149,7 @@ namespace ObjectONNX
                     }
                 }
 
-                masks[k] = mask.Resize(height, width);
+                masks[k] = mask.ResizePreserved(height, width, InterpolationMode.Bicubic);
             });
 
             // results

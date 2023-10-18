@@ -171,32 +171,5 @@ namespace ObjectONNX
             }
             return list;
         }
-
-        /// <summary>
-        /// Resize method with preserving proportions.
-        /// </summary>
-        /// <param name="image">Image</param>
-        /// <param name="size">Size</param>
-        /// <param name="value">Background value</param>
-        /// <param name="interpolationMode">Interpolation mode</param>
-        /// <returns>Image</returns>
-        public static float[,] Resize(this float[,] image, Size size, float value, InterpolationMode interpolationMode = InterpolationMode.Bicubic)
-        {
-            int width = image.GetLength(1);
-            int height = image.GetLength(0);
-            int max = Math.Max(width, height);
-            var rect = new Rectangle((max - width) / 2, (max - height) / 2, width, height);
-            var temp = new float[max, max].Add(value);
-
-            for (int y = 0; y < rect.Height; y++)
-            {
-                for (int x = 0; x < rect.Width; x++)
-                {
-                    temp[y + rect.Y, x + rect.X] = image[y, x];
-                }
-            }
-
-            return temp.Resize(size.Height, size.Width, interpolationMode);
-        }
     }
 }

@@ -187,7 +187,7 @@ namespace ObjectONNX
 
             for (int i = 0; i < image.Length; i++)
             {
-                resized[i] = image[i].Resize(size, 114 / 255.0f, InterpolationMode.Bicubic);
+                resized[i] = image[i].ResizePreserved(size.Height, size.Width, 114 / 255.0f, InterpolationMode.Bicubic);
             }
 
             // yolo params

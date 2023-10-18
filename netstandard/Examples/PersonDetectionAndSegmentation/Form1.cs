@@ -69,7 +69,7 @@ namespace PersonDetectionAndSegmentation
             }
 
             using var mask = mat.FromGrayscale();
-            var maskFilter = new MaskColorFilter(Color.FromArgb(96, 0, 255, 0));
+            var maskFilter = new MaskColorFilter(Color.FromArgb(255, 0, 255, 0));
             maskFilter.Apply(image, mask);
 
             BackgroundImage = image;
