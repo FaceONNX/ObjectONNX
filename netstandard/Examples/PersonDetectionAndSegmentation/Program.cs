@@ -1,4 +1,4 @@
-namespace ObjectDetection
+namespace PersonDetectionAndSegmentation
 {
     internal static class Program
     {

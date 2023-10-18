@@ -1,4 +1,4 @@
-﻿namespace ObjectDetection
+﻿namespace PersonDetectionAndSegmentation
 {
     partial class Form1
     {
@@ -34,11 +34,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ObjectONNX: Object Detection";
+            this.Text = "Form1";
             this.ResumeLayout(false);
 
         }
