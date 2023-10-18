@@ -14,7 +14,7 @@ You can build **ObjectONNX** from sources or install to your own project using n
 # Installation
 C# interface  
 ```c#
-using FaceONNX;
+using ObjectONNX;
 ```
 To get started with **ObjectONNX**, it is recommended to look at the folder with [examples](netstandard/Examples).  
 
