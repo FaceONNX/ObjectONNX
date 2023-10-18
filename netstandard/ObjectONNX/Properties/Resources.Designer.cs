@@ -63,9 +63,9 @@ namespace ObjectONNX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] mask_rcnn_inception_v2_coco {
+        internal static byte[] deeplabv3 {
             get {
-                object obj = ResourceManager.GetObject("mask_rcnn_inception_v2_coco", resourceCulture);
+                object obj = ResourceManager.GetObject("deeplabv3", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace ObjectONNX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] ssd_inception_v2_coco {
+        internal static byte[] yolov5s {
             get {
-                object obj = ResourceManager.GetObject("ssd_inception_v2_coco", resourceCulture);
+                object obj = ResourceManager.GetObject("yolov5s", resourceCulture);
                 return ((byte[])(obj));
             }
         }

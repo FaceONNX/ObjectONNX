@@ -21,5 +21,21 @@ namespace ObjectONNX
         /// Gets or sets rectangle.
         /// </summary>
         public Rectangle Rectangle { get; set; }
+
+        /// <summary>
+        /// Empty object detection result.
+        /// </summary>
+        public static ObjectDetectionResult Empty
+        {
+            get
+            {
+                return new ObjectDetectionResult
+                {
+                    Rectangle = Rectangle.Empty,
+                    Score = 0,
+                    Id = -1
+                };
+            }
+        }
     }
 }

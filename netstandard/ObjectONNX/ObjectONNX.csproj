@@ -29,17 +29,20 @@
 
 
 	<ItemGroup>
+	  <None Remove="models\deeplabv3.onnx" />
 	  <None Remove="models\mask_rcnn_inception_v2.onnx" />
 	  <None Remove="models\ssd_inception_v2_coco.onnx" />
+	  <None Remove="models\yolov5s.onnx" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.9.0" />
-		<PackageReference Include="UMapx" Version="5.2.7.1" />
+		<PackageReference Include="UMapx" Version="5.2.8.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="models\ssd_inception_v2_coco.onnx" />
+	  <Resource Include="models\deeplabv3.onnx" />
+	  <Resource Include="models\yolov5s.onnx" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,6 @@
-﻿using Microsoft.ML.OnnxRuntime;
+﻿using ObjectONNX.Properties;
+using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
-using ObjectONNX.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,30 +27,36 @@ namespace ObjectONNX
         #region Constructor
 
         /// <summary>
-        /// Initializes face detector.
+        /// Initializes object detector.
         /// </summary>
+        /// <param name="detectionThreshold">Detection threshold</param>
         /// <param name="confidenceThreshold">Confidence threshold</param>
         /// <param name="nmsThreshold">NonMaxSuppression threshold</param>
-        /// <param name="objectDetectionModel">Object detection model</param>
-        public ObjectDetector(float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f, ObjectDetectionModel objectDetectionModel = ObjectDetectionModel.MaskRCNNInceptionV2)
+        /// <param name="nonMaxSuppressionMode">NonMaxSuppression mode</param>
+        public ObjectDetector(float detectionThreshold = 0.3f, float confidenceThreshold = 0.4f, float nmsThreshold = 0.5f, NonMaxSuppressionMode nonMaxSuppressionMode = NonMaxSuppressionMode.Agnostic)
         {
+            _session = new InferenceSession(Resources.yolov5s);
+            DetectionThreshold = detectionThreshold;
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
-            _session = new InferenceSession(GetModel(objectDetectionModel));
+            NonMaxSuppressionMode = nonMaxSuppressionMode;
         }
 
         /// <summary>
-        /// Initializes face detector.
+        /// Initializes object detector.
         /// </summary>
         /// <param name="options">Session options</param>
+        /// <param name="detectionThreshold">Detection threshold</param>
         /// <param name="confidenceThreshold">Confidence threshold</param>
         /// <param name="nmsThreshold">NonMaxSuppression threshold</param>
-        /// <param name="objectDetectionModel">Object detection model</param>
-        public ObjectDetector(SessionOptions options, float confidenceThreshold = 0.95f, float nmsThreshold = 0.5f, ObjectDetectionModel objectDetectionModel = ObjectDetectionModel.MaskRCNNInceptionV2)
+        /// <param name="nonMaxSuppressionMode">NonMaxSuppression mode</param>
+        public ObjectDetector(SessionOptions options, float detectionThreshold = 0.3f, float confidenceThreshold = 0.4f, float nmsThreshold = 0.5f, NonMaxSuppressionMode nonMaxSuppressionMode = NonMaxSuppressionMode.Agnostic)
         {
+            _session = new InferenceSession(Resources.yolov5s, options);
+            DetectionThreshold = detectionThreshold;
             ConfidenceThreshold = confidenceThreshold;
             NmsThreshold = nmsThreshold;
-            _session = new InferenceSession(GetModel(objectDetectionModel), options);
+            NonMaxSuppressionMode = nonMaxSuppressionMode;
         }
 
         #endregion
@@ -58,106 +64,102 @@ namespace ObjectONNX
         #region Properties
 
         /// <inheritdoc/>
+        public float DetectionThreshold { get; set; }
+
+        /// <inheritdoc/>
         public float ConfidenceThreshold { get; set; }
 
         /// <inheritdoc/>
         public float NmsThreshold { get; set; }
 
+        /// <inheritdoc/>
+        public NonMaxSuppressionMode NonMaxSuppressionMode { get; set; }
+
         /// <summary>
-        /// Returns the labels.
+        /// Gets labels.
         /// </summary>
         public static readonly string[] Labels = new string[]
         {
-            "person",
-            "bicycle",
-            "car",
-            "motorcycle",
-            "airplane",
-            "bus",
-            "train",
-            "truck",
-            "boat",
-            "traffic light",
-            "fire hydrant",
-            "unknown",
-            "stop sign",
-            "parking meter",
-            "bench",
-            "bird",
-            "cat",
-            "dog",
-            "horse",
-            "sheep",
-            "cow",
-            "elephant",
-            "bear",
-            "zebra",
-            "giraffe",
-            "unknown",
-            "backpack",
-            "umbrella",
-            "unknown",
-            "unknown",
-            "handbag",
-            "tie",
-            "suitcase",
-            "frisbee",
-            "skis",
-            "snowboard",
-            "sports ball",
-            "kite",
-            "baseball bat",
-            "baseball glove",
-            "skateboard",
-            "surfboard",
-            "tennis racket",
-            "bottle",
-            "unknown",
-            "wine glass",
-            "cup",
-            "fork",
-            "knife",
-            "spoon",
-            "bowl",
-            "banana",
-            "apple",
-            "sandwich",
-            "orange",
-            "broccoli",
-            "carrot",
-            "hot dog",
-            "pizza",
-            "donut",
-            "cake",
-            "chair",
-            "couch",
-            "potted plant",
-            "bed",
-            "unknown",
-            "dining table",
-            "unknown",
-            "unknown",
-            "toilet",
-            "unknown",
-            "tv",
-            "laptop",
-            "mouse",
-            "remote",
-            "keyboard",
-            "cell phone",
-            "microwave",
-            "oven",
-            "toaster",
-            "sink",
-            "refrigerator",
-            "unknown",
-            "book",
-            "clock",
-            "vase",
-            "scissors",
-            "teddy bear",
-            "hair drier",
-            "toothbrush",
+            "Person",
+            "Bicycle",
+            "Car",
+            "Motorcycle",
+            "Airplane",
+            "Bus",
+            "Train",
+            "Truck",
+            "Boat",
+            "TrafficLight",
+            "FireHydrant",
+            "StopSign",
+            "ParkingMeter",
+            "Bench",
+            "Bird",
+            "Cat",
+            "Dog",
+            "Horse",
+            "Sheep",
+            "Cow",
+            "Elephant",
+            "Bear",
+            "Zebra",
+            "Giraffe",
+            "Backpack",
+            "Umbrella",
+            "Handbag",
+            "Tie",
+            "Suitcase",
+            "Frisbee",
+            "Skis",
+            "Snowboard",
+            "SportsBall",
+            "Kite",
+            "BaseballBat",
+            "BaseballGlove",
+            "Skateboard",
+            "Surfboard",
+            "TennisRacket",
+            "Bottle",
+            "WineGlass",
+            "Cup",
+            "Fork",
+            "Knife",
+            "Spoon",
+            "Bowl",
+            "Banana",
+            "Apple",
+            "Sandwich",
+            "Orange",
+            "Broccoli",
+            "Carrot",
+            "HotDog",
+            "Pizza",
+            "Donut",
+            "Cake",
+            "Chair",
+            "Couch",
+            "PottedPlant",
+            "Bed",
+            "DiningTable",
+            "Toilet",
+            "TV",
+            "Laptop",
+            "Mouse",
+            "Remote",
+            "Keyboard",
+            "CellPhone",
+            "Microwave",
+            "Oven",
+            "Toaster",
+            "Sink",
+            "Refrigerator",
+            "Book",
+            "Clock",
+            "Vase",
+            "Scissors",
+            "TeddyBear",
+            "HairDrier",
+            "Toothbrush"
         };
 
         #endregion
@@ -177,103 +179,136 @@ namespace ObjectONNX
             if (image.Length != 3)
                 throw new ArgumentException("Image must be in BGR terms");
 
+            // params
             var width = image[0].GetLength(1);
             var height = image[0].GetLength(0);
-            var dimentions = new int[] { 1, height, width, 3 };
+            var size = new Size(640, 640);
+            var resized = new float[3][,];
+
+            for (int i = 0; i < image.Length; i++)
+            {
+                resized[i] = image[i].Resize(size, 114 / 255.0f, InterpolationMode.Bicubic);
+            }
+
+            // yolo params
+            var yoloSquare = 5;
+            var classes = Labels.Length;
+            var count = classes + yoloSquare;
+
+            // pre-processing
             var inputMeta = _session.InputMetadata;
             var name = inputMeta.Keys.ToArray()[0];
-
-            // preprocessing
-            var tensors = image.ToByteTensor(true);
-            var inputData = tensors.Merge(false);
+            var dimentions = new[] { 1, 3, size.Height, size.Width };
+            var tensor = resized.ToFloatTensor(true);
+            tensor.Compute(255.0f, Matrice.Div); // scale
+            var inputData = tensor.Merge(true);
 
             // session run
-            var t = new DenseTensor<byte>(inputData, dimentions);
-            var inputs = new List<NamedOnnxValue> { NamedOnnxValue.CreateFromTensor(name, t) };
-            using var outputs = _session.Run(inputs);
-            var results = outputs.ToArray();
-            var detection_boxes = results[0].AsTensor<float>();
-            var detection_classes = results[1].AsTensor<float>();
-            var detection_scores = results[2].AsTensor<float>();
-            var num_detections = results[3].AsTensor<float>()[0];
-            var detection_masks = results.Length == 5 ? results[4].AsTensor<float>() : null;
+            var t = new DenseTensor<float>(inputData, dimentions);
+            var inputs = new List<NamedOnnxValue>() { NamedOnnxValue.CreateFromTensor(name, t) };
+            using var sessionResults = _session?.Run(inputs);
+            var results = sessionResults?.ToArray();
 
-            // post-proccessing
-            var boxes_picked = new List<ObjectDetectionResult>();
+            if (results == null)
+                return new ObjectDetectionResult[] { };
 
-            for (int i = 0; i < num_detections; i++)
+            // post-processing
+            var vector = results[0].AsTensor<float>().ToArray();
+            var length = vector.Length / count;
+            var predictions = new float[length][];
+
+            for (int i = 0; i < length; i++)
             {
-                var score = detection_scores[0, i];
+                var prediction = new float[count];
 
-                if (score > ConfidenceThreshold)
+                for (int j = 0; j < count; j++)
+                    prediction[j] = vector[i * count + j];
+
+                predictions[i] = prediction;
+            }
+
+            var list = new List<float[]>();
+
+            // seivining results
+            for (int i = 0; i < length; i++)
+            {
+                var prediction = predictions[i];
+
+                if (prediction[4] > DetectionThreshold)
                 {
-                    var labelId = (int)detection_classes[0, i] - 1;
+                    var a = prediction[0];
+                    var b = prediction[1];
+                    var c = prediction[2];
+                    var d = prediction[3];
 
-                    var x = (int)(detection_boxes[0, i, 0] * height);
-                    var y = (int)(detection_boxes[0, i, 1] * width);
-                    var w = (int)(detection_boxes[0, i, 2] * height);
-                    var h = (int)(detection_boxes[0, i, 3] * width);
+                    prediction[0] = a - c / 2;
+                    prediction[1] = b - d / 2;
+                    prediction[2] = a + c / 2;
+                    prediction[3] = b + d / 2;
 
-                    // python rectangle
-                    var rectangle = Rectangle.FromLTRB(y, x, h, w);
-                    boxes_picked.Add(new ObjectDetectionResult
-                    {
-                        Score = score,
-                        Rectangle = rectangle, 
-                        Id = labelId
-                    });
+                    //for (int j = yoloSquare; j < prediction.Length; j++)
+                    //{
+                    //    prediction[j] *= prediction[4];
+                    //}
+
+                    list.Add(prediction);
                 }
             }
 
             // non-max suppression
-            var length = boxes_picked.Count;
+            if (NonMaxSuppressionMode == NonMaxSuppressionMode.Agnostic)
+            {
+                list = NonMaxSuppressionExensions.AgnosticNMSFiltration(list, NmsThreshold);
+            }
+            else
+            {
+                list = NonMaxSuppressionExensions.NMSFiltration(list, NmsThreshold, Labels, yoloSquare, classes);
+            }
+
+            // perform
+            predictions = list.ToArray();
+            length = predictions.Length;
+
+            // backward transform
+            var k0 = (float)size.Width / width;
+            var k1 = (float)size.Height / height;
+            float gain = Math.Min(k0, k1);
+            float p0 = (size.Width - width * gain) / 2;
+            float p1 = (size.Height - height * gain) / 2;
+
+            // collect results
+            var detectionResults = new List<ObjectDetectionResult>();
 
             for (int i = 0; i < length; i++)
             {
-                var first = boxes_picked[i];
+                var prediction = predictions[i];
+                var labels = new float[classes];
 
-                for (int j = i + 1; j < length; j++)
+                for (int j = 0; j < classes; j++)
                 {
-                    var second = boxes_picked[j];
-                    var iou = first.Rectangle.IoU(second.Rectangle);
+                    labels[j] = prediction[j + yoloSquare];
+                }
 
-                    if (iou > NmsThreshold)
+                var max = Matrice.Max(labels, out int argmax);
+
+                if (max > ConfidenceThreshold)
+                {
+                    var rectangle = Rectangle.FromLTRB(
+                        (int)((prediction[0] - p0) / gain),
+                        (int)((prediction[1] - p1) / gain),
+                        (int)((prediction[2] - p0) / gain),
+                        (int)((prediction[3] - p1) / gain));
+
+                    detectionResults.Add(new ObjectDetectionResult
                     {
-                        boxes_picked.RemoveAt(j);
-                        length = boxes_picked.Count;
-                        j--;
-                    }
+                        Rectangle = rectangle,
+                        Id = argmax,
+                        Score = max
+                    });
                 }
             }
 
-            return boxes_picked.ToArray();
-        }
-
-        #endregion
-
-        #region Private methods
-
-        /// <summary>
-        /// Returns model from ObjectDetectionModel.
-        /// </summary>
-        /// <param name="objectDetectionModel">Object detection model</param>
-        /// <returns>Model</returns>
-        private static byte[] GetModel(ObjectDetectionModel objectDetectionModel)
-        {
-            byte[] model;
-
-            switch (objectDetectionModel)
-            {
-                case ObjectDetectionModel.MaskRCNNInceptionV2:
-                    model = Resources.mask_rcnn_inception_v2_coco;
-                    break;
-                case ObjectDetectionModel.SSDInceptionV2:
-                default:
-                    model = Resources.ssd_inception_v2_coco;
-                    break;
-            }
-
-            return model;
+            return detectionResults.ToArray();
         }
 
         #endregion
@@ -289,7 +324,8 @@ namespace ObjectONNX
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected void Dispose(bool disposing)
         {
             if (!_disposed)
             {
@@ -297,11 +333,13 @@ namespace ObjectONNX
                 {
                     _session?.Dispose();
                 }
-
                 _disposed = true;
             }
         }
 
+        /// <summary>
+        /// Destructor.
+        /// </summary>
         ~ObjectDetector()
         {
             Dispose(false);
