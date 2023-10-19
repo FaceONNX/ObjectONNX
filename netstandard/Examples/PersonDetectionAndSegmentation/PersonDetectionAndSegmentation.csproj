@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ObjectONNX\ObjectONNX.csproj" />
+    <ProjectReference Include="..\..\ObjectONNX.Gpu\ObjectONNX.Gpu.csproj" />
   </ItemGroup>
 
   <ItemGroup>
