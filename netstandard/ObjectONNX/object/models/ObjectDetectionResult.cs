@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using UMapx.Imaging;
 
 namespace ObjectONNX
 {
@@ -21,6 +22,17 @@ namespace ObjectONNX
         /// Gets or sets rectangle.
         /// </summary>
         public Rectangle Rectangle { get; set; }
+
+        /// <summary>
+        /// Gets box.
+        /// </summary>
+        public Rectangle Box
+        {
+            get
+            {
+                return Rectangle.ToBox();
+            }
+        }
 
         /// <summary>
         /// Empty object detection result.
