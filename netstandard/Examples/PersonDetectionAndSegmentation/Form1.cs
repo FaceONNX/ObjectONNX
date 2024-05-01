@@ -58,19 +58,21 @@ namespace PersonDetectionAndSegmentation
                     font, brush, objectDetectionResults[i].Rectangle.Left, objectDetectionResults[i].Rectangle.Top);
             }
 
-            var mat = new float[image.Height, image.Width];
+            var results = new float[image.Height, image.Width];
 
             for (int y = 0; y < image.Height; y++)
             {
                 for (int x = 0; x < image.Width; x++)
                 {
-                    mat[y, x] = segmentationResults[y, x] == 15 ? 1 : 0;
+                    results[y, x] = segmentationResults[y, x] == 15 ? 1 : 0;
                 }
             }
 
-            using var mask = mat.FromGrayscale();
-            var maskFilter = new MaskColorFilter(Color.FromArgb(255, 0, 255, 0));
-            maskFilter.Apply(image, mask);
+            using var mask = results.FromGrayscale();
+            var maskColorFilter = new MaskColorFilter(Color.FromArgb(128, Color.Yellow));
+            maskColorFilter.Apply(image, mask);
+
+            image.Save("output.png", System.Drawing.Imaging.ImageFormat.Png);
 
             BackgroundImage = image;
         }
