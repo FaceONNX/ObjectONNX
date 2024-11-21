@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <AssemblyName>ObjectONNX</AssemblyName>
 	  <LangVersion>8.0</LangVersion>
-	  <Version>1.0.1.1</Version>
-	  <FileVersion>1.0.1.1</FileVersion>
+	  <Version>1.0.2.1</Version>
+	  <FileVersion>1.0.2.1</FileVersion>
 	  <Authors>Valery Asiryan</Authors>
 	  <Company>Valery Asiryan</Company>
 	  <Description>Object recognition and analytics library based on deep neural networks and ONNX runtime.</Description>
@@ -13,7 +13,7 @@
 	  <RepositoryType>Open-source</RepositoryType>
 	  <PackageId>ObjectONNX</PackageId>
 	  <Product>ObjectONNX</Product>
-	  <AssemblyVersion>1.0.1.1</AssemblyVersion>
+	  <AssemblyVersion>1.0.2.1</AssemblyVersion>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageTags>object detection recognition classification segmentation onnx neural-networks</PackageTags>
 	  <RepositoryUrl>https://github.com/FaceONNX/ObjectONNX</RepositoryUrl>
@@ -39,7 +39,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.9.0" />
-		<PackageReference Include="UMapx" Version="6.0.0.1" />
+		<PackageReference Include="UMapx" Version="6.1.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
